@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "384688268373",
+    "project_id": "dictator-55706",
+    "storage_bucket": "dictator-55706.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384688268373:android:1f24ea1dd9f4a7197da0dc",
+        "android_client_info": {
+          "package_name": "com.kalanco.dictator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384688268373-ch1cgm65514agunm9pk7ki16uqu660cv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhGUrjF-8b4F91exC9ehEWFHM6eu9hDvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384688268373-ch1cgm65514agunm9pk7ki16uqu660cv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
