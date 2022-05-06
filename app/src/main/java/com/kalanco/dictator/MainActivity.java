@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton buttonSettings;
     TextView money;
     Button shop;
-    BDService dbHelper;
-    SQLiteDatabase db;
+    //BDService dbHelper;
+    //SQLiteDatabase db;
     private LocalDatabaseService mDBHelper;
     private SQLiteDatabase mDb;
 
@@ -44,18 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         linker();
-        DatabaseService.getMoneyListerner(UserService.getFUserId(), new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                money.setText("Баллан = " + snapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        bindDatabase();
+        money.setText(mDBHelper.getMoney());
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,19 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //        Cursor cursor = db.rawQuery("select * from todo where _id = ?", new String[] { "1" });
 //        cursor.moveToPosition(0);
 //        Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
-        mDBHelper = new LocalDatabaseService(this);
 
-        try {
-            mDBHelper.updateDataBase();
-        } catch (IOException mIOException) {
-            throw new Error("UnableToUpdateDatabase");
-        }
-
-        try {
-            mDb = mDBHelper.getWritableDatabase();
-        } catch (SQLException mSQLException) {
-            throw mSQLException;
-        }
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,12 +95,20 @@ public class MainActivity extends AppCompatActivity {
         //buttonBack = findViewById(R.id.buttonBack);
     }
 
-    void getDatabase() {
-        dbHelper = new BDService(getApplicationContext(), "DATABASE2", null, 1);
+    //    void getDatabase() {
+//        dbHelper = new BDService(getApplicationContext(), "DATABASE2", null, 1);
+//        try {
+//            db = dbHelper.getWritableDatabase();
+//        } catch (SQLiteException ex) {
+//            db = dbHelper.getReadableDatabase();
+//        }
+//    }
+    void bindDatabase() {
+        mDBHelper = new LocalDatabaseService(this);
         try {
-            db = dbHelper.getWritableDatabase();
-        } catch (SQLiteException ex) {
-            db = dbHelper.getReadableDatabase();
+            mDBHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("UnableToUpdateDatabase");
         }
     }
 }

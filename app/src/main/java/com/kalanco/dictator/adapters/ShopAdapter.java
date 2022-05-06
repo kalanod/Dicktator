@@ -17,7 +17,11 @@ import com.kalanco.dictator.R;
 import com.kalanco.dictator.models.ShopItem;
 import com.kalanco.dictator.services.UserService;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ShopAdapter extends FirebaseRecyclerAdapter<ShopItem, ShopAdapter.viewHolder> {
+    public List<ShopItem> list = new LinkedList<>();
 
     public ShopAdapter(@NonNull FirebaseRecyclerOptions<ShopItem> options) {
         super(options);
@@ -59,7 +63,7 @@ public class ShopAdapter extends FirebaseRecyclerAdapter<ShopItem, ShopAdapter.v
             buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserService.buy(user.id).addOnFailureListener(new OnFailureListener() {
+                    UserService.buy(Integer.toString(user.id)).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(itemView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

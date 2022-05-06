@@ -5,12 +5,12 @@ public class ShopItem {
     public String desc;
     public int price;
     public boolean isBought;
-    public String id;
+    public int id;
 
     public ShopItem() {
     }
 
-    public ShopItem(String id, String name, String desc, int price) {
+    public ShopItem(int id, String name, String desc, int price) {
         this.id = id;
         this.name = name;
         this.desc = desc;
