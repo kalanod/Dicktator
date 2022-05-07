@@ -3,23 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_recents"
-        android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_dark"
-        android:title="Recents"
-        app:showAsAction="ifRoom" />
-
+        android:id="@+id/account"
+        android:icon="@drawable/ic_outline_account_circle_24"
+        android:title="account" />
     <item
-        android:id="@+id/action_favorites"
-        android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_light"
-        android:title="Favorites"
-        app:showAsAction="ifRoom" />
-
+        android:id="@+id/home"
+        android:icon="@drawable/ic_outline_home_24"
+        android:title="home" />
     <item
-        android:id="@+id/action_nearby"
-        android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_text_dark_normal"
-        android:title="Nearby"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_outline_settings_24"
+        android:title="settings" />
 </menu>

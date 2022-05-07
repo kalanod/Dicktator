@@ -20,7 +20,7 @@ public class ActivitySplash extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (UserService.isLogin()){
-            startActivity(new Intent(ActivitySplash.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity(new Intent(ActivitySplash.this, ActivityHome.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
         else {
             startActivity(new Intent(ActivitySplash.this, ActivityReg.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

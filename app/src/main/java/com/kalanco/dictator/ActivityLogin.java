@@ -41,7 +41,7 @@ public class ActivityLogin extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(ActivityLogin.this, "успешный вход", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                                Intent intent = new Intent(ActivityLogin.this, ActivitySplash.class);
                                 startActivity(intent);
                             }
                         }).addOnCanceledListener(new OnCanceledListener() {
