@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     //BDService dbHelper;
     //SQLiteDatabase db;
     private LocalDatabaseService mDBHelper;
-    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +67,24 @@ public class MainActivity extends AppCompatActivity {
 //        Cursor cursor = db.rawQuery("select * from todo where _id = ?", new String[] { "1" });
 //        cursor.moveToPosition(0);
 //        Toast.makeText(this, cursor.getString(1), Toast.LENGTH_SHORT).show();
-
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String product = "";
-
-                Cursor cursor = mDb.rawQuery("SELECT * FROM user", null);
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    product += cursor.getString(1) + " | ";
-                    cursor.moveToNext();
-                }
-                cursor.close();
-                Toast.makeText(MainActivity.this, product, Toast.LENGTH_SHORT).show();
-                String query = "INSERT INTO user (name, money) VALUES ('Tom', 11)";
-                mDb.execSQL(query);
-            }
-        });
+//
+//        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String product = "";
+//
+//                Cursor cursor = mDb.rawQuery("SELECT * FROM user", null);
+//                cursor.moveToFirst();
+//                while (!cursor.isAfterLast()) {
+//                    product += cursor.getString(1) + " | ";
+//                    cursor.moveToNext();
+//                }
+//                cursor.close();
+//                Toast.makeText(MainActivity.this, product, Toast.LENGTH_SHORT).show();
+//                String query = "INSERT INTO user (name, money) VALUES ('Tom', 11)";
+//                mDb.execSQL(query);
+//            }
+//        });
     }
 
     void linker() {

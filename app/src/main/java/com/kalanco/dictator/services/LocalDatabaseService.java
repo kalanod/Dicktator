@@ -19,7 +19,7 @@ import java.util.List;
 public class LocalDatabaseService extends SQLiteOpenHelper {
     private static String DB_NAME = "DicktatorDB.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -135,5 +135,19 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         cursor.moveToFirst();
         int money = cursor.getInt(2);
         return Integer.toString(money);
+    }
+
+    public String getName() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        String name = cursor.getString(1);
+        return name;
+    }
+
+    public String getBest() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        String best = cursor.getString(4);
+        return best;
     }
 }
