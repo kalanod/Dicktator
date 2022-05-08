@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.kalanco.dictator.adapters.LocalShopAdapter;
 import com.kalanco.dictator.adapters.ShopAdapter;
 import com.kalanco.dictator.services.DatabaseService;
@@ -26,7 +28,6 @@ public class ShopActivity extends AppCompatActivity {
     //UsersListAdapter adapter;
     ImageButton bntBack;
     private LocalDatabaseService mDBHelper;
-    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,10 @@ public class ShopActivity extends AppCompatActivity {
 
 
     }
-
+    public void onDestroy() {
+        mDBHelper.close();
+        super.onDestroy();
+    }
     void linker() {
         recyclerView = findViewById(R.id.list);
         bntBack = findViewById(R.id.buttonBack);
@@ -61,12 +65,6 @@ public class ShopActivity extends AppCompatActivity {
             mDBHelper.updateDataBase();
         } catch (IOException mIOException) {
             throw new Error("UnableToUpdateDatabase");
-        }
-
-        try {
-            mDb = mDBHelper.getWritableDatabase();
-        } catch (SQLException mSQLException) {
-            throw mSQLException;
         }
     }
 }
