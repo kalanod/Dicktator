@@ -150,4 +150,15 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         String best = cursor.getString(4);
         return best;
     }
+
+    public void storeMoney(int price) {
+        mDataBase.execSQL("UPDATE user SET money = (SELECT money FROM user where _id = 1) - " + price + " WHERE _id = 1");
+    }
+
+    public boolean canDo(int price) {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        int money = cursor.getInt(2);
+        return money >= price;
+    }
 }

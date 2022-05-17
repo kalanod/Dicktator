@@ -40,4 +40,7 @@ public class FragmentProfile extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+    public void callParentMethod(){
+        getActivity().onBackPressed();
+    }
 }

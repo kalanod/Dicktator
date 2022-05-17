@@ -44,4 +44,7 @@ public class FragmentHome extends Fragment {
         });
         return view;
     }
+    public void callParentMethod(){
+        getActivity().onBackPressed();
+    }
 }

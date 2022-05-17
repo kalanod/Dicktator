@@ -5,10 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kalanco.dictator.MainActivity;
 import com.kalanco.dictator.models.ShopItem;
 import com.kalanco.dictator.R;
 import com.kalanco.dictator.services.LocalDatabaseService;
@@ -40,6 +42,8 @@ public class LocalShopAdapter extends RecyclerView.Adapter<LocalShopAdapter.View
                 if (mDBHelper.canBuy(item.id)){
                     holder.btn_buy.setText("куплено");
                     mDBHelper.buy(item.id);
+                }else {
+                    Toast.makeText(v.getContext(), "Недостаточно золота", Toast.LENGTH_SHORT).show();
                 };
             }
         });

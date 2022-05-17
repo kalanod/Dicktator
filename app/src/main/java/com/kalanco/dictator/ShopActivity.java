@@ -43,7 +43,7 @@ public class ShopActivity extends AppCompatActivity {
         bntBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ShopActivity.this, MainActivity.class));
+                startActivity(new Intent(ShopActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
 

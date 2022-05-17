@@ -77,4 +77,7 @@ public class FragmentSettings extends Fragment {
         });
         return view;
     }
+    public void callParentMethod(){
+        getActivity().onBackPressed();
+    }
 }
