@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.kalanco.dictator.models.GameUser;
 import com.kalanco.dictator.models.ShopItem;
 
 import java.io.File;
@@ -127,7 +128,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
 
     public void buy(int id) {
         mDataBase.execSQL("UPDATE user SET money = (SELECT money FROM user where _id = 1) - (SELECT price FROM shop where _id = " + id + ") WHERE _id = 1");
-        mDataBase.execSQL("UPDATE shop SET count = (SELECT count FROM shop where _id = " + id +") + 1 WHERE _ID = " + id + ";");
+        mDataBase.execSQL("UPDATE shop SET count = (SELECT count FROM shop where _id = " + id + ") + 1 WHERE _ID = " + id + ";");
     }
 
     public String getMoney() {
@@ -160,5 +161,48 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         cursor.moveToFirst();
         int money = cursor.getInt(2);
         return money >= price;
+    }
+
+    public int getScore() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        int money = cursor.getInt(3);
+        return money;
+    }
+
+    public int getTopScore() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        int topScore = cursor.getInt(4);
+        return topScore;
+    }
+
+    public int getLoyal() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        int money = cursor.getInt(6);
+        return money;
+    }
+
+    public GameUser getGameUser() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        GameUser user = new GameUser(cursor.getInt(3),
+                cursor.getInt(4),
+                cursor.getInt(5),
+                cursor.getInt(6),
+                cursor.getInt(7));
+        return user;
+    }
+
+    public void storeUser(GameUser user) {
+        mDataBase.execSQL("UPDATE user SET money = (SELECT money FROM user where _id = 1) - " + user.money + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET score = (SELECT score FROM user where _id = 1) - " + user.score + " WHERE _id = 1");
+        if (user.score > user.best) {
+            mDataBase.execSQL("UPDATE top SET top_score = (SELECT top_score FROM user where _id = 1) - " + user.best + " WHERE _id = 1");
+
+        }
+        mDataBase.execSQL("UPDATE user SET loyal = (SELECT loyal FROM user where _id = 1) - " + user.loyal + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET police = (SELECT police FROM user where _id = 1) - " + user.police + " WHERE _id = 1");
     }
 }

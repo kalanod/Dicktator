@@ -65,7 +65,6 @@ public class FragmentSettings extends Fragment {
                     }
                 });
                 builder.show();
-
             }
         });
         btnRefresh = view.findViewById(R.id.btnRefresh);

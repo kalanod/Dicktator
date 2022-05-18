@@ -2,6 +2,7 @@ package com.kalanco.dictator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.kalanco.dictator.models.Event;
 import com.kalanco.dictator.models.Events;
+import com.kalanco.dictator.models.GameUser;
 import com.kalanco.dictator.services.LocalDatabaseService;
+import com.kalanco.dictator.services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,13 +30,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton buttonSettings;
-    TextView money, title, desc, res, t4;
+    TextView money, title, desc, res, t4, score;
     Event[] events;
     Button shop, btn1, btn2, next;
     Random random = new Random();
     Event currentEvent;
     View card;
-    int myMoney;
+    GameUser user;
     private LocalDatabaseService mDBHelper;
 
     @Override
@@ -41,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         linker();
         bindDatabase();
-        myMoney = Integer.parseInt(mDBHelper.getMoney());
-        money.setText(Integer.toString(myMoney));
+        user = mDBHelper.getGameUser();
+
+        money.setText(Integer.toString(user.money));
         try {
             AssetManager assetManager = getAssets();
             InputStream ims = assetManager.open("events.json");
@@ -64,21 +69,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btn1:
-                        if (myMoney >= currentEvent.price1) {
+                        if (user.money >= currentEvent.price1) {
                             res.setText(currentEvent.res1);
-                            myMoney -= currentEvent.price1;
-                            mDBHelper.storeMoney(myMoney);
+                            user.money -= currentEvent.price1;
+                            user.score += currentEvent.xp1;
+                            user.loyal += currentEvent.loyal1;
+                            user.police += currentEvent.police1;
                             showEvent();
                         } else {
                             Toast.makeText(MainActivity.this, "Недостаточно золота", Toast.LENGTH_SHORT).show();
                         }
                         break;
-
                     case R.id.btn2:
-                        if (myMoney >= currentEvent.price2) {
+                        if (user.money >= currentEvent.price2) {
                             res.setText(currentEvent.res2);
-                            myMoney -= currentEvent.price2;
-                            mDBHelper.storeMoney(myMoney);
+                            user.money -= currentEvent.price2;
+                            user.score += currentEvent.xp2;
+                            user.loyal += currentEvent.loyal2;
+                            user.police += currentEvent.police2;
                             showEvent();
                         } else {
                             Toast.makeText(MainActivity.this, "Недостаточно золота", Toast.LENGTH_SHORT).show();
@@ -100,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showEvent() {
-        money.setText(Integer.toString(myMoney));
+        mDBHelper.storeUser(user);
+        score.setText(Integer.toString(user.score));
+        money.setText(Integer.toString(user.money));
         card.setVisibility(View.INVISIBLE);
         next.setVisibility(View.VISIBLE);
         shop.setVisibility(View.VISIBLE);
@@ -118,8 +128,40 @@ public class MainActivity extends AppCompatActivity {
         res.setText("");
         shop.setVisibility(View.INVISIBLE);
         t4.setVisibility(View.VISIBLE);
+        user.money -= 100;
+        chekMoney();
         //Toast.makeText(this, Integer.toString(a), Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void chekMoney() {
+        if (user.money <= 0){
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+            builder.setTitle("О нет! в казне закончились деньги");
+            builder.setPositiveButton("заного!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    user.money = 1000;
+                    user.score = 0;
+                    user.loyal = 0;
+                    user.police = 0;
+                    newEvent();
+                }
+            });
+            builder.setNegativeButton("выход", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    UserService.logout();
+                    startActivity(new Intent(MainActivity.this, ActivityHome.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    try {
+                        finalize();
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            });
+            builder.show();
+        }
     }
 
     void linker() {
@@ -133,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         card = findViewById(R.id.card);
         next = findViewById(R.id.btn_next);
         t4 = findViewById(R.id.textView4);
+        score = findViewById(R.id.score);
         //buttonBack = findViewById(R.id.buttonBack);
     }
 

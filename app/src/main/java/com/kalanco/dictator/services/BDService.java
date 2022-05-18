@@ -10,7 +10,7 @@ public class BDService extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "todo";
     public static final String NAME = "NAME";
     public static final String PHONE = "PHONE";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public BDService(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -28,4 +28,5 @@ public class BDService extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
 }
