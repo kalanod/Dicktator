@@ -3,6 +3,7 @@ package com.kalanco.dictator.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +26,11 @@ public class FragmentProfile extends Fragment {
     private LocalDatabaseService mDBHelper;
     private FriendsAdapter friendAdapter;
     private AchievAdapter achievAdapter;
+    FragmentFriend fragmentFriend;
 
     public FragmentProfile(LocalDatabaseService service) {
         mDBHelper = service;
+        fragmentFriend = new FragmentFriend();
     }
 
 
@@ -48,7 +51,10 @@ public class FragmentProfile extends Fragment {
         View.OnClickListener friendListerner = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout, fragmentFriend);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         };
         friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), friendListerner);

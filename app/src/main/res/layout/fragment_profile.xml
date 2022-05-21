@@ -28,22 +28,6 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/text_best"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="TextView"
-                    android:textSize="24sp" />
-
-                <View
-                    android:id="@+id/view4"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_margin="15dp"
-                    android:layout_marginTop="15dp"
-                    android:background="#4A4A4A" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
