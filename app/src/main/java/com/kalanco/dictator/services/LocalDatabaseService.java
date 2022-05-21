@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.kalanco.dictator.models.GameUser;
 import com.kalanco.dictator.models.ShopItem;
+import com.kalanco.dictator.models.User;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +21,7 @@ import java.util.List;
 public class LocalDatabaseService extends SQLiteOpenHelper {
     private static String DB_NAME = "DicktatorDB.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -145,10 +146,10 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         return name;
     }
 
-    public String getBest() {
+    public int getBest() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
         cursor.moveToFirst();
-        String best = cursor.getString(4);
+        int best = cursor.getInt(4);
         return best;
     }
 
@@ -187,22 +188,51 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
     public GameUser getGameUser() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
         cursor.moveToFirst();
-        GameUser user = new GameUser(cursor.getInt(3),
+        GameUser user = new GameUser(cursor.getInt(2),
+                cursor.getInt(3),
                 cursor.getInt(4),
                 cursor.getInt(5),
-                cursor.getInt(6),
-                cursor.getInt(7));
+                cursor.getInt(6));
+        return user;
+    }
+    public GameUser getUser() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        GameUser user = new GameUser(cursor.getInt(2),
+                cursor.getInt(3),
+                cursor.getInt(4),
+                cursor.getInt(5),
+                cursor.getInt(6));
         return user;
     }
 
     public void storeUser(GameUser user) {
-        mDataBase.execSQL("UPDATE user SET money = (SELECT money FROM user where _id = 1) - " + user.money + " WHERE _id = 1");
-        mDataBase.execSQL("UPDATE user SET score = (SELECT score FROM user where _id = 1) - " + user.score + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET money = " + user.money + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET score = " + user.score + " WHERE _id = 1");
         if (user.score > user.best) {
-            mDataBase.execSQL("UPDATE top SET top_score = (SELECT top_score FROM user where _id = 1) - " + user.best + " WHERE _id = 1");
+            mDataBase.execSQL("UPDATE USER SET top_score = " + user.best + " WHERE _id = 1");
 
         }
-        mDataBase.execSQL("UPDATE user SET loyal = (SELECT loyal FROM user where _id = 1) - " + user.loyal + " WHERE _id = 1");
-        mDataBase.execSQL("UPDATE user SET police = (SELECT police FROM user where _id = 1) - " + user.police + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET loyal = " + user.loyal + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET police = " + user.police + " WHERE _id = 1");
+    }
+
+    public void storeUser(User user) {
+        mDataBase.execSQL("UPDATE user SET name = " + '"' + user.name + '"' + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET user_id = "+ '"'  + user.id+ '"'  + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET money = 0 WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET score = 0 WHERE _id = 1");
+        mDataBase.execSQL("UPDATE USER SET top_score = " + user.best + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET loyal = 0 WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET police = 0 WHERE _id = 1");
+    }
+
+    public void refresh() {
+        mDataBase.execSQL("UPDATE user SET money = " + 1000 + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET score = " + 0 + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE USER SET top_score = " + 0 + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET loyal = " + 0 + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET police = " + 0 + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE shop SET isBought = false;");
     }
 }

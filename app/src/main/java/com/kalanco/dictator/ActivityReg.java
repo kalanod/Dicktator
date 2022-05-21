@@ -14,11 +14,15 @@ import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
+import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
+
+import java.io.IOException;
 
 public class ActivityReg extends AppCompatActivity {
     EditText fildEmail, fildPass, fildName;
     Button buttonLogin, buttonReg;
+    private LocalDatabaseService mDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class ActivityReg extends AppCompatActivity {
                 UserService.storeUser(
                         fildName.getText().toString(),
                         fildPass.getText().toString(),
-                        fildEmail.getText().toString())
+                        fildEmail.getText().toString(), mDBHelper)
                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
                             public void onSuccess(AuthResult authResult) {
@@ -63,11 +67,30 @@ public class ActivityReg extends AppCompatActivity {
         });
     }
 
+    public void onStart() {
+        super.onStart();
+        bindDatabase();
+    }
+
+    public void onStop() {
+        mDBHelper.close();
+        super.onStop();
+    }
+
     void linker() {
         fildEmail = findViewById(R.id.fildEmail);
         fildPass = findViewById(R.id.fildPass);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonReg = findViewById(R.id.buttonReg);
         fildName = findViewById(R.id.fildName);
+    }
+
+    void bindDatabase() {
+        mDBHelper = new LocalDatabaseService(this);
+        try {
+            mDBHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("UnableToUpdateDatabase");
+        }
     }
 }

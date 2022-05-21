@@ -16,6 +16,8 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.kalanco.dictator.fragments.FragmentAddFriends;
+import com.kalanco.dictator.fragments.FragmentFriend;
 import com.kalanco.dictator.fragments.FragmentHome;
 import com.kalanco.dictator.fragments.FragmentProfile;
 import com.kalanco.dictator.fragments.FragmentSettings;
@@ -29,6 +31,8 @@ public class ActivityHome extends AppCompatActivity {
     FragmentSettings fragmentSettings;
     FragmentHome fragmentHome;
     FragmentProfile fragmentProfile;
+    FragmentAddFriends fragmentAddFriends;
+    FragmentFriend fragmentFriend;
     Button btnStart;
 
 
@@ -63,8 +67,8 @@ public class ActivityHome extends AppCompatActivity {
 
     private void linker() {
         navigationView = findViewById(R.id.bottomNavigationView);
-        fragmentSettings = new FragmentSettings();
-        fragmentHome = new FragmentHome();
+        fragmentSettings = new FragmentSettings(mDBHelper);
+        fragmentHome = new FragmentHome(mDBHelper);
         fragmentProfile = new FragmentProfile(mDBHelper);
     }
 

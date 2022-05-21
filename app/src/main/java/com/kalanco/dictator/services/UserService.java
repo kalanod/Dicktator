@@ -9,13 +9,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.kalanco.dictator.models.User;
 
 public class UserService {
-    public static Task<AuthResult> storeUser(String name, String password, String email) {
+    public static Task<AuthResult> storeUser(String name, String password, String email, LocalDatabaseService base) {
         return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         User user = new User(authResult.getUser().getUid(), name, email);
                         DatabaseService.storeUser(user);
+                        base.storeUser(user);
                     }
                 });
     }
@@ -48,17 +49,9 @@ public class UserService {
         return DatabaseService.buy(getFUserId(), id);
     }
 
-    public static void refreshData() {
-
-        getDatabaseUser().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                User user;
-                user = dataSnapshot.getValue(User.class);
-                user.refresh();
-                DatabaseService.storeUser(user);
-            }
-        });
+    public static void refreshData( LocalDatabaseService mDBHelper
+    ) {
+        mDBHelper.refresh();
     }
 
     public static Task<DataSnapshot> getDatabaseUser() {

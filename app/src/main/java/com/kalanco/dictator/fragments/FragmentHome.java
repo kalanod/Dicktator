@@ -13,11 +13,14 @@ import android.widget.Button;
 import com.kalanco.dictator.ActivityHome;
 import com.kalanco.dictator.MainActivity;
 import com.kalanco.dictator.R;
+import com.kalanco.dictator.services.LocalDatabaseService;
 
 
 public class FragmentHome extends Fragment {
     Button button;
-    public FragmentHome() {
+    private LocalDatabaseService mDBHelper;
+    public FragmentHome(LocalDatabaseService mDBHelper) {
+        this.mDBHelper = mDBHelper;
         // Required empty public constructor
     }
 

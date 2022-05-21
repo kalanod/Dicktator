@@ -1,6 +1,7 @@
 package com.kalanco.dictator.models;
 
 public class GameUser {
+    public int id;
     public int money;
     public int score;
     public int best;
@@ -14,6 +15,7 @@ public class GameUser {
         this.loyal = loyal;
         this.police = police;
     }
+
 
     public GameUser() {
     }

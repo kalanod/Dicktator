@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
 
 public class ActivitySettings extends AppCompatActivity {
     Button buttonLogout, btnRefresh;
     ImageButton buttonBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +30,12 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserService.logout();
-                startActivity(new Intent(ActivitySettings.this,ActivityLogin.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(ActivitySettings.this, ActivityLogin.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserService.refreshData();
-            }
-        });
+
     }
+
     void linker() {
         buttonLogout = findViewById(R.id.btnLogout);
         buttonBack = findViewById(R.id.buttonBack);

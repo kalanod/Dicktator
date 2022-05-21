@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -115,9 +116,16 @@ public class MainActivity extends AppCompatActivity {
         next.setVisibility(View.VISIBLE);
         shop.setVisibility(View.VISIBLE);
         t4.setVisibility(View.INVISIBLE);
+        if (user.best < user.score){
+            user.best = user.score;
+        }
     }
 
     void newEvent() {
+        Toast.makeText(this, String.format(Locale.US, "%d", mDBHelper.getBest())
+                , Toast.LENGTH_SHORT).show();
+        mDBHelper.storeUser(user);
+        score.setText(Integer.toString(user.score));
         int a = random.nextInt(events.length);
         currentEvent = events[a];
         card.setVisibility(View.VISIBLE);
@@ -129,19 +137,20 @@ public class MainActivity extends AppCompatActivity {
         shop.setVisibility(View.INVISIBLE);
         t4.setVisibility(View.VISIBLE);
         user.money -= 100;
+        money.setText(Integer.toString(user.money));
         chekMoney();
         //Toast.makeText(this, Integer.toString(a), Toast.LENGTH_SHORT).show();
 
     }
 
     private void chekMoney() {
-        if (user.money <= 0){
+        if (user.money <= 0) {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
             builder.setTitle("О нет! в казне закончились деньги");
             builder.setPositiveButton("заного!", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    user.money = 1000;
+                    user.money = 1100;
                     user.score = 0;
                     user.loyal = 0;
                     user.police = 0;
@@ -151,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton("выход", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    UserService.logout();
                     startActivity(new Intent(MainActivity.this, ActivityHome.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     try {
                         finalize();
@@ -187,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
             throw new Error("UnableToUpdateDatabase");
         }
     }
+
     public void onBackPressed() {
     }
 }

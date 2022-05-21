@@ -17,14 +17,17 @@ import com.kalanco.dictator.ActivityLogin;
 import com.kalanco.dictator.ActivitySettings;
 import com.kalanco.dictator.MainActivity;
 import com.kalanco.dictator.R;
+import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
 
 
 public class FragmentSettings extends Fragment {
     Button buttonLogout, btnRefresh;
+    private LocalDatabaseService mDBHelper;
 
-    public FragmentSettings() {
-        // Required empty public constructor
+    public FragmentSettings(LocalDatabaseService mDBHelper
+    ) {
+        this.mDBHelper = mDBHelper;
     }
 
 
@@ -71,7 +74,7 @@ public class FragmentSettings extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserService.refreshData();
+                UserService.refreshData(mDBHelper);
             }
         });
         return view;

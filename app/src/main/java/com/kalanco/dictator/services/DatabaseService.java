@@ -7,6 +7,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.kalanco.dictator.models.Achiev;
+import com.kalanco.dictator.models.Friend;
 import com.kalanco.dictator.models.ShopItem;
 import com.kalanco.dictator.models.User;
 
@@ -39,5 +41,17 @@ public class DatabaseService {
 
     public static Task<DataSnapshot> getDatabaseUser(String fUserId) {
         return getDatabase().getReference("users/" + fUserId).get();
+    }
+
+    public static FirebaseRecyclerOptions<Friend> getFriendsOptions(String id) {
+        Query quere = getDatabase().getReference("users").child(id).child("friends");
+        ClassSnapshotParser<Friend> parser = new ClassSnapshotParser<>(Friend.class);
+        return new FirebaseRecyclerOptions.Builder<Friend>().setQuery(quere, parser).build();
+    }
+
+    public static FirebaseRecyclerOptions<Achiev> getAchievOptions(String id) {
+        Query quere = getDatabase().getReference("users").child(id).child("achivments");
+        ClassSnapshotParser<Achiev> parser = new ClassSnapshotParser<>(Achiev.class);
+        return new FirebaseRecyclerOptions.Builder<Achiev>().setQuery(quere, parser).build();
     }
 }
