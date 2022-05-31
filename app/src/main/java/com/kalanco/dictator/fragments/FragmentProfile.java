@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.kalanco.dictator.R;
@@ -27,10 +28,15 @@ public class FragmentProfile extends Fragment {
     private FriendsAdapter friendAdapter;
     private AchievAdapter achievAdapter;
     FragmentFriend fragmentFriend;
+    Button addFriend;
+    FragmentTransaction transaction;
+
+    FragmentAddFriends fragmentAddFriends;
 
     public FragmentProfile(LocalDatabaseService service) {
         mDBHelper = service;
-        fragmentFriend = new FragmentFriend();
+        fragmentAddFriends = new FragmentAddFriends(fragmentFriend, this);
+        fragmentFriend = new FragmentFriend(fragmentAddFriends);
     }
 
 
@@ -46,18 +52,12 @@ public class FragmentProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView textName = view.findViewById(R.id.text_name);
         textName.setText(mDBHelper.getName());
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
         TextView best = view.findViewById(R.id.text_best);
         best.setText(String.format(Locale.US, "%d", mDBHelper.getBest()));
-        View.OnClickListener friendListerner = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.frameLayout, fragmentFriend);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        };
-        friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), friendListerner);
+
+        friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), fragmentFriend, transaction);
         LinearLayoutManager friendManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
@@ -81,6 +81,16 @@ public class FragmentProfile extends Fragment {
 
         friendAdapter.startListening();
         achievAdapter.startListening();
+
+        addFriend = view.findViewById(R.id.btn_add_friend);
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transaction.replace(R.id.frameLayout, fragmentAddFriends);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         return view;
     }
 

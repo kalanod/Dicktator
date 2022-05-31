@@ -13,6 +13,7 @@ import com.kalanco.dictator.models.ShopItem;
 import com.kalanco.dictator.models.User;
 
 public class DatabaseService {
+
     public static FirebaseDatabase getDatabase(){
         return FirebaseDatabase.getInstance("https://dictator-55706-default-rtdb.europe-west1.firebasedatabase.app/");}
     public static Task<Void> storeUser(User user){
@@ -54,4 +55,18 @@ public class DatabaseService {
         ClassSnapshotParser<Achiev> parser = new ClassSnapshotParser<>(Achiev.class);
         return new FirebaseRecyclerOptions.Builder<Achiev>().setQuery(quere, parser).build();
     }
+
+    public static Task<DataSnapshot> getUser(String id) {
+        return getDatabase().getReference("users/" + id).get();
+    }
+
+    public static FirebaseRecyclerOptions<Friend> getUsersOptions() {
+        Query quere = getDatabase().getReference("users");
+        ClassSnapshotParser<Friend> parser = new ClassSnapshotParser<>(Friend.class);
+        return new FirebaseRecyclerOptions.Builder<Friend>().setQuery(quere, parser).build();
+    }
 }
+//Kalan kalan1 = new Kalan(10);
+//kalan1.getHeight();
+//Kalan.isFood(); // static
+//Kalan kalan2 = new Kalan(20);

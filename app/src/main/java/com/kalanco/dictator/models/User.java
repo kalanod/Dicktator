@@ -21,14 +21,9 @@ public class User {
         this.email = email;
         best = 0;
         img = 0;
-        achivments.add(new Achiev("kkall", "kalabal", "qwd" , true));
-        achivments.add(new Achiev("kkall2", "kalabal2", "qwd" , true));
-        achivments.add(new Achiev("kkall3", "kalabal 3 false", "qwd" , false));
+        achivments.add(new Achiev("Новичок", "Открыть игру в 1й раз", "1" , true));
 
-        friends.add(new Friend("ahah", "abob", 4));
-        friends.add(new Friend("ahwwwah", "abob", 4));
-        friends.add(new Friend("kalll", "abob", 4));
-
+        friends.add(new Friend("9rLWUgI050bCMYTvDDltwCRk4Vy1", "admin", 1));
     }
 
 }

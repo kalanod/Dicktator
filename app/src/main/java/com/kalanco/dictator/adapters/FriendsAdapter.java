@@ -6,11 +6,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.kalanco.dictator.R;
+import com.kalanco.dictator.fragments.FragmentFriend;
 import com.kalanco.dictator.models.Friend;
 
 import java.util.LinkedList;
@@ -18,11 +21,13 @@ import java.util.List;
 
 public class FriendsAdapter extends FirebaseRecyclerAdapter<Friend, FriendsAdapter.viewHolder> {
     public List<Friend> list = new LinkedList<>();
-    View.OnClickListener listerner;
+    FragmentFriend fragmentFriend;
+    FragmentTransaction transaction;
 
-    public FriendsAdapter(@NonNull FirebaseRecyclerOptions<Friend> options, View.OnClickListener listener1) {
+    public FriendsAdapter(@NonNull FirebaseRecyclerOptions<Friend> options, FragmentFriend fragmentFriend, FragmentTransaction trans) {
         super(options);
-        listerner = listener1;
+        this.fragmentFriend = fragmentFriend;
+        this.transaction = trans;
 
     }
 
@@ -52,7 +57,20 @@ public class FriendsAdapter extends FirebaseRecyclerAdapter<Friend, FriendsAdapt
 
         public void buid(Friend user) {
             name.setText(user.name);
-            view.setOnClickListener(listerner);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragmentFriend.id = user.id;
+                    change(fragmentFriend);
+                }
+            });
         }
     }
+
+    public void change(Fragment fragment) {
+        transaction.replace(R.id.frameLayout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 }
