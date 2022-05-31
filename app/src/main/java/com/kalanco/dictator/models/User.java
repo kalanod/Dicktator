@@ -23,7 +23,6 @@ public class User {
         img = 0;
         achivments.add(new Achiev("Новичок", "Открыть игру в 1й раз", "1" , true));
 
-        friends.add(new Friend("9rLWUgI050bCMYTvDDltwCRk4Vy1", "admin", 1));
     }
 
 }

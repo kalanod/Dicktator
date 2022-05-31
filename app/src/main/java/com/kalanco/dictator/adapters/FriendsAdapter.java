@@ -14,6 +14,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.kalanco.dictator.R;
 import com.kalanco.dictator.fragments.FragmentFriend;
+import com.kalanco.dictator.models.FragmentHolder;
 import com.kalanco.dictator.models.Friend;
 
 import java.util.LinkedList;
@@ -21,14 +22,12 @@ import java.util.List;
 
 public class FriendsAdapter extends FirebaseRecyclerAdapter<Friend, FriendsAdapter.viewHolder> {
     public List<Friend> list = new LinkedList<>();
-    FragmentFriend fragmentFriend;
-    FragmentTransaction transaction;
+    FragmentHolder fragmentHolder;
 
-    public FriendsAdapter(@NonNull FirebaseRecyclerOptions<Friend> options, FragmentFriend fragmentFriend, FragmentTransaction trans) {
+
+    public FriendsAdapter(@NonNull FirebaseRecyclerOptions<Friend> options, FragmentHolder holder) {
         super(options);
-        this.fragmentFriend = fragmentFriend;
-        this.transaction = trans;
-
+        fragmentHolder = holder;
     }
 
     @Override
@@ -60,17 +59,10 @@ public class FriendsAdapter extends FirebaseRecyclerAdapter<Friend, FriendsAdapt
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fragmentFriend.id = user.id;
-                    change(fragmentFriend);
+                    fragmentHolder.fragmentFriend.id = user.id;
+                    fragmentHolder.changeToFriend();
                 }
             });
         }
     }
-
-    public void change(Fragment fragment) {
-        transaction.replace(R.id.frameLayout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
 }

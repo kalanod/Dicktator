@@ -159,14 +159,16 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
+            <ImageButton
+                android:id="@+id/btn_edit"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/action1"
                 android:src="@android:drawable/ic_menu_edit"
                 app:layout_constraintStart_toEndOf="@+id/text_name"
                 app:layout_constraintTop_toTopOf="@+id/text_name" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

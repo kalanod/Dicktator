@@ -181,7 +181,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
     public int getLoyal() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
         cursor.moveToFirst();
-        int money = cursor.getInt(6);
+        int money = cursor.getInt(5);
         return money;
     }
 
@@ -234,5 +234,20 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         mDataBase.execSQL("UPDATE user SET loyal = " + 0 + " WHERE _id = 1");
         mDataBase.execSQL("UPDATE user SET police = " + 0 + " WHERE _id = 1");
         mDataBase.execSQL("UPDATE shop SET isBought = false;");
+    }
+
+    public int getImg() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        return cursor.getInt(8);
+    }
+
+    public void setAva(int ava) {
+        mDataBase.execSQL("UPDATE user SET img = " + ava + " WHERE _id = 1");
+
+    }
+
+    public void setName(String toString) {
+        mDataBase.execSQL("UPDATE user SET name = "  + '"'+ toString + '"' + " WHERE _id = 1");
     }
 }

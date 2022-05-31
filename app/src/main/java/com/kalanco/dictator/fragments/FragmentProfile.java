@@ -7,15 +7,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kalanco.dictator.R;
 import com.kalanco.dictator.adapters.AchievAdapter;
 import com.kalanco.dictator.adapters.FriendsAdapter;
+import com.kalanco.dictator.models.FragmentHolder;
 import com.kalanco.dictator.services.DatabaseService;
 import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
@@ -24,21 +28,22 @@ import java.util.Locale;
 
 
 public class FragmentProfile extends Fragment {
-    private LocalDatabaseService mDBHelper;
     private FriendsAdapter friendAdapter;
     private AchievAdapter achievAdapter;
-    FragmentFriend fragmentFriend;
     Button addFriend;
-    FragmentTransaction transaction;
+    FragmentHolder fragmentHolder;
+    ImageButton btnEdit;
+    ImageView ava;
+    View view;
+    TextView textName, best;
+    RecyclerView recyclerView, recyclerViewAchiev;
 
-    FragmentAddFriends fragmentAddFriends;
-
-    public FragmentProfile(LocalDatabaseService service) {
-        mDBHelper = service;
-        fragmentAddFriends = new FragmentAddFriends(fragmentFriend, this);
-        fragmentFriend = new FragmentFriend(fragmentAddFriends);
+    public FragmentProfile() {
     }
 
+    public void setFragmentHolder(FragmentHolder holder) {
+        this.fragmentHolder = holder;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,22 +54,20 @@ public class FragmentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        TextView textName = view.findViewById(R.id.text_name);
-        textName.setText(mDBHelper.getName());
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        linker();
+        setAva(fragmentHolder.mDBHelper.getImg());
+        textName.setText(fragmentHolder.mDBHelper.getName());
 
-        TextView best = view.findViewById(R.id.text_best);
-        best.setText(String.format(Locale.US, "%d", mDBHelper.getBest()));
+        best.setText(String.format(Locale.US, "%d", fragmentHolder.mDBHelper.getBest()));
 
-        friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), fragmentFriend, transaction);
+        friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), fragmentHolder);
         LinearLayoutManager friendManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
-        RecyclerView recyclerView = view.findViewById(R.id.friends_list);
         recyclerView.setAdapter(friendAdapter);
         recyclerView.setLayoutManager(friendManager);
 
@@ -75,37 +78,65 @@ public class FragmentProfile extends Fragment {
                 return false;
             }
         };
-        RecyclerView recyclerViewAchiev = view.findViewById(R.id.achiev_list);
         recyclerViewAchiev.setAdapter(achievAdapter);
         recyclerViewAchiev.setLayoutManager(achievManager);
 
         friendAdapter.startListening();
         achievAdapter.startListening();
 
-        addFriend = view.findViewById(R.id.btn_add_friend);
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transaction.replace(R.id.frameLayout, fragmentAddFriends);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                fragmentHolder.changeToAddFriends();
+            }
+        });
+        view.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentHolder.changeToEdit();
             }
         });
         return view;
     }
 
-    public void callParentMethod() {
-        getActivity().onBackPressed();
-    }
-
-    public void onStop() {
-        super.onDestroy();
-        super.onStop();
+    private void linker() {
+        textName = view.findViewById(R.id.text_name);
+        best = view.findViewById(R.id.text_best);
+        recyclerView = view.findViewById(R.id.friends_list);
+        recyclerViewAchiev = view.findViewById(R.id.achiev_list);
+        addFriend = view.findViewById(R.id.btn_add_friend);
+        ava = view.findViewById(R.id.imageView2);
     }
 
     public void onDestroy() {
-        super.onDestroy();
+
         friendAdapter.stopListening();
         achievAdapter.stopListening();
+        super.onDestroy();
+    }
+    private void setAva(int current) {
+        switch (current) {
+            case 0:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar));
+                break;
+            case 1:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar1));
+                break;
+            case 2:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar2));
+                break;
+            case 3:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar3));
+                break;
+            case 4:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar4));
+                break;
+            case 5:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar5));
+                break;
+            case 6:
+                ava.setImageDrawable(getActivity().getDrawable(R.drawable.avatar6));
+                break;
+        }
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
 
 public class ActivitySettings extends AppCompatActivity {
@@ -38,7 +37,7 @@ public class ActivitySettings extends AppCompatActivity {
 
     void linker() {
         buttonLogout = findViewById(R.id.btnLogout);
-        buttonBack = findViewById(R.id.buttonBack);
+        buttonBack = findViewById(R.id.btn_back);
         btnRefresh = findViewById(R.id.btnRefresh);
     }
 }

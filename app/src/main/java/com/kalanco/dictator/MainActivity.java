@@ -15,17 +15,13 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.kalanco.dictator.models.Event;
-import com.kalanco.dictator.models.Events;
 import com.kalanco.dictator.models.GameUser;
 import com.kalanco.dictator.services.LocalDatabaseService;
-import com.kalanco.dictator.services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -197,5 +193,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
+    }
+    public void onDestroy() {
+        mDBHelper.close();
+        super.onDestroy();
     }
 }

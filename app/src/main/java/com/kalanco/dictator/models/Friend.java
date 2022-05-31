@@ -7,6 +7,11 @@ public class Friend {
 
     public Friend() {
     }
+    public Friend(User user) {
+        id = user.id;
+        name = user.name;
+        img = user.img;
+    }
 
     public Friend(String id, String name, int img) {
         this.id = id;

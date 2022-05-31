@@ -3,7 +3,6 @@ package com.kalanco.dictator.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,17 +14,19 @@ import android.widget.ImageButton;
 
 import com.kalanco.dictator.R;
 import com.kalanco.dictator.adapters.FriendsAdapter;
+import com.kalanco.dictator.models.FragmentHolder;
 import com.kalanco.dictator.services.DatabaseService;
-import com.kalanco.dictator.services.UserService;
 
 public class FragmentAddFriends extends Fragment {
     private FriendsAdapter friendAdapter;
     FragmentFriend fragmentFriend;
     FragmentProfile fragmentProfile;
     ImageButton back;
-    FragmentTransaction transaction;
+    FragmentHolder fragmentHolder;
 
     public FragmentAddFriends() {
+        fragmentFriend = new FragmentFriend();
+        fragmentProfile = new FragmentProfile();
     }
 
     public FragmentAddFriends(FragmentFriend ff, FragmentProfile fp) {
@@ -43,9 +44,8 @@ public class FragmentAddFriends extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_add_friends, container, false);
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-        friendAdapter = new FriendsAdapter(DatabaseService.getUsersOptions(), fragmentFriend, transaction);
+        friendAdapter = new FriendsAdapter(DatabaseService.getUsersOptions(), fragmentHolder);
         Log.d("tag", DatabaseService.getUsersOptions().toString());
 
         LinearLayoutManager friendManager = new LinearLayoutManager(getActivity()) {
@@ -57,11 +57,11 @@ public class FragmentAddFriends extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.friends_list);
         recyclerView.setAdapter(friendAdapter);
         recyclerView.setLayoutManager(friendManager);
-        back = view.findViewById(R.id.buttonBack);
+        back = view.findViewById(R.id.btn_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                change(fragmentProfile);
+                fragmentHolder.changeToProfile();
             }
         });
         return view;
@@ -71,13 +71,11 @@ public class FragmentAddFriends extends Fragment {
         super.onStop();
     }
     public void onStart() {
-        friendAdapter.startListening();
         super.onStart();
+        friendAdapter.startListening();
 
     }
-    public void change(Fragment fragment){
-        transaction.replace(R.id.frameLayout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public void setFragmentHolder(FragmentHolder holder) {
+        this.fragmentHolder = holder;
     }
 }
