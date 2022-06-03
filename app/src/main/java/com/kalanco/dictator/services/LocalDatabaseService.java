@@ -184,6 +184,12 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         int money = cursor.getInt(5);
         return money;
     }
+    public int getPolice() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        int money = cursor.getInt(6);
+        return money;
+    }
 
     public GameUser getGameUser() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);

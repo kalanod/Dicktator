@@ -7,24 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView7"
+    <ImageButton
+        android:id="@+id/btn_back2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/score"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@android:string/untitled"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/homeAsUpIndicator"
+        tools:srcCompat="?attr/actionModeCloseDrawable" />
 
     <TextView
         android:id="@+id/textMoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
         android:text="ballance"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btn_back2" />
 
     <TextView
         android:id="@+id/score"
@@ -32,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:text="score"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        app:layout_constraintBottom_toBottomOf="@+id/textMoney"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,12 +57,36 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#5A8E8E8E"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/police"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="160dp"
+                android:text="силовики"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintBottom_toBottomOf="@+id/loyal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/list2"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:itemCount="1"
+                tools:listitem="@layout/point_item" />
 
             <Button
                 android:id="@+id/btn_next"
@@ -76,30 +103,66 @@
                 android:id="@+id/text_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_shop"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/list" />
 
-            <Button
-                android:id="@+id/btn_shop"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintBottom_toBottomOf="@+id/police"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/police"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:itemCount="1"
+                tools:listitem="@layout/point_item" />
+
+            <TextView
+                android:id="@+id/loyal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="магазин"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="народ"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/police" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Лояльность"
+                app:layout_constraintBottom_toTopOf="@+id/list2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <Button
+            android:id="@+id/btn_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="магазин"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +176,7 @@
 
                 <!-- Media -->
                 <ImageView
+                    android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="194dp"
                     android:contentDescription="@string/title"
