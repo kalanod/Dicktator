@@ -10,19 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.kalanco.dictator.ActivityLogin;
-import com.kalanco.dictator.ActivitySettings;
-import com.kalanco.dictator.MainActivity;
 import com.kalanco.dictator.R;
 import com.kalanco.dictator.services.LocalDatabaseService;
 import com.kalanco.dictator.services.UserService;
 
 
 public class FragmentSettings extends Fragment {
-    Button buttonLogout, btnRefresh;
+    Button buttonLogout, btnRefresh, btnSound;
     private LocalDatabaseService mDBHelper;
 
     public FragmentSettings(LocalDatabaseService mDBHelper
@@ -43,7 +41,8 @@ public class FragmentSettings extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        buttonLogout = view.findViewById(R.id.btnLogout);
+        buttonLogout = view.findViewById(R.id.btnLogout2);
+        btnSound = view.findViewById(R.id.btnSound);
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,12 +73,42 @@ public class FragmentSettings extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserService.refreshData(mDBHelper);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+                builder.setTitle("будет сброшен весь прогресс");
+                builder.setNegativeButton("отмена", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                builder.setPositiveButton("сброс", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UserService.refreshData(mDBHelper);
+                        Toast.makeText(getActivity(), "Игровые данные сброшены", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+
+            }
+        });
+        checkSound();
+        btnSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDBHelper.changeSound();
+                checkSound();
             }
         });
         return view;
     }
-    public void callParentMethod(){
+    void checkSound(){
+        btnSound.setText("звук выключен");
+        if (mDBHelper.isSoundOn()) {
+            btnSound.setText("звук включён");
+        }
+    }
+    public void callParentMethod() {
         getActivity().onBackPressed();
     }
 }

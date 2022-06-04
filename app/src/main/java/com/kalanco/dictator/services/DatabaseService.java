@@ -147,6 +147,27 @@ public class DatabaseService {
     public static void getAva(String fUserId, OnSuccessListener listener) {
         getDatabase().getReference("users/" + fUserId + "/img").get().addOnSuccessListener(listener);
     }
+
+
+    public static void newAciev(String fUserId, Achiev a) {
+        List<Achiev> achievs = new ArrayList<>();
+        getDatabase().getReference("users/" + fUserId + "/achivments").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                Achiev i;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    i = snapshot.getValue(Achiev.class);
+                    achievs.add(i);
+                }
+                achievs.add(a);
+                getDatabase().getReference("users/" + fUserId + "/achivments").setValue(achievs);
+            }
+        });
+    }
+
+    public static void setBest(String fUserId, int score) {
+        getDatabase().getReference("users/" + fUserId + "/best").setValue(score);
+    }
 }
 //Kalan kalan1 = new Kalan(10);
 //kalan1.getHeight();

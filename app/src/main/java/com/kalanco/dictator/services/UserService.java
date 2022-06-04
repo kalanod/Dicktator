@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.kalanco.dictator.fragments.FragmentFriend;
+import com.kalanco.dictator.models.Achiev;
 import com.kalanco.dictator.models.Friend;
 import com.kalanco.dictator.models.User;
 
@@ -59,6 +60,7 @@ public class UserService {
     public static void refreshData( LocalDatabaseService mDBHelper
     ) {
         mDBHelper.refresh();
+        DatabaseService.setBest(getFUserId(), 0);
     }
 
     public static Task<DataSnapshot> getDatabaseUser() {
@@ -86,6 +88,14 @@ public class UserService {
 
     public static void setName(String text) {
         DatabaseService.setName(getFUserId(), text);
+    }
+
+    public static void newAchive(Achiev a) {
+        DatabaseService.newAciev(getFUserId(), a);
+    }
+
+    public static void setBest(int score) {
+        DatabaseService.setBest(getFUserId(), score);
     }
 //    public boolean ableToBuy(String id){
 //        DatabaseService

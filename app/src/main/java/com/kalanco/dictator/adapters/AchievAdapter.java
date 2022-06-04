@@ -40,13 +40,14 @@ public class AchievAdapter extends FirebaseRecyclerAdapter<Achiev, AchievAdapter
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView title, textDesc;
         View card;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_title);
             card = itemView.findViewById(R.id.card);
+            textDesc = itemView.findViewById(R.id.text_desc);
         }
 
         public void buid(Achiev achiev) {
@@ -57,6 +58,7 @@ public class AchievAdapter extends FirebaseRecyclerAdapter<Achiev, AchievAdapter
                     Toast.makeText(itemView.getContext(), achiev.title, Toast.LENGTH_SHORT).show();
                 }
             });
+            textDesc.setText(achiev.desc);
         }
     }
 }

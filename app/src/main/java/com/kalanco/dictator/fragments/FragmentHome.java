@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.kalanco.dictator.ActivityHome;
 import com.kalanco.dictator.MainActivity;
@@ -18,6 +19,7 @@ import com.kalanco.dictator.services.LocalDatabaseService;
 
 public class FragmentHome extends Fragment {
     Button button;
+    TextView score;
     private LocalDatabaseService mDBHelper;
     public FragmentHome(LocalDatabaseService mDBHelper) {
         this.mDBHelper = mDBHelper;
@@ -45,9 +47,16 @@ public class FragmentHome extends Fragment {
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
+        score = view.findViewById(R.id.text_score);
+
+        score.setText("Счёт: " + mDBHelper.getScore());
         return view;
     }
     public void callParentMethod(){
         getActivity().onBackPressed();
+    }
+    public void onDestroy() {
+        mDBHelper.close();
+        super.onDestroy();
     }
 }

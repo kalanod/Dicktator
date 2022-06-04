@@ -21,7 +21,7 @@ import java.util.List;
 public class LocalDatabaseService extends SQLiteOpenHelper {
     private static String DB_NAME = "DicktatorDB.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 8;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -184,6 +184,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         int money = cursor.getInt(5);
         return money;
     }
+
     public int getPolice() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
         cursor.moveToFirst();
@@ -201,6 +202,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
                 cursor.getInt(6));
         return user;
     }
+
     public GameUser getUser() {
         Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
         cursor.moveToFirst();
@@ -225,7 +227,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
 
     public void storeUser(User user) {
         mDataBase.execSQL("UPDATE user SET name = " + '"' + user.name + '"' + " WHERE _id = 1");
-        mDataBase.execSQL("UPDATE user SET user_id = "+ '"'  + user.id+ '"'  + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET user_id = " + '"' + user.id + '"' + " WHERE _id = 1");
         mDataBase.execSQL("UPDATE user SET money = 0 WHERE _id = 1");
         mDataBase.execSQL("UPDATE user SET score = 0 WHERE _id = 1");
         mDataBase.execSQL("UPDATE USER SET top_score = " + user.best + " WHERE _id = 1");
@@ -254,6 +256,21 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
     }
 
     public void setName(String toString) {
-        mDataBase.execSQL("UPDATE user SET name = "  + '"'+ toString + '"' + " WHERE _id = 1");
+        mDataBase.execSQL("UPDATE user SET name = " + '"' + toString + '"' + " WHERE _id = 1");
+    }
+
+    public boolean isSoundOn() {
+        Cursor cursor = mDataBase.rawQuery("SELECT * FROM user;", null);
+        cursor.moveToFirst();
+        return cursor.getInt(9) == 1;
+
+    }
+
+    public void changeSound() {
+        if (isSoundOn()){
+            mDataBase.execSQL("UPDATE user SET sound = 0 WHERE _id = 1");
+            return;
+        }
+        mDataBase.execSQL("UPDATE user SET sound = 1 WHERE _id = 1");
     }
 }

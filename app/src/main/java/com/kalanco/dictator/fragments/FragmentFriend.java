@@ -74,7 +74,7 @@ public class FragmentFriend extends Fragment {
                 user = dataSnapshot.getValue(User.class);
                 name.setText(user.name);
                 name2.setText(user.name);
-                best.setText(Integer.toString(user.best));
+                best.setText("Рекорд: " + user.best);
                 achievAdapter.startListening();
                 if (UserService.isFriend(user.id, FragmentFriend.this)) {
                     addFriends.setText("Удалить друга");
@@ -130,6 +130,7 @@ public class FragmentFriend extends Fragment {
         addFriends.setBackgroundColor(getActivity().getResources().getColor(R.color.purple_200));
         isFriend = false;
     }
+
     private void setAva(int current) {
         switch (current) {
             case 0:

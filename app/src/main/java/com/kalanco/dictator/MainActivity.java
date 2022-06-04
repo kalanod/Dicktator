@@ -22,9 +22,11 @@ import android.widget.Toast;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.kalanco.dictator.adapters.PointAdapter;
+import com.kalanco.dictator.models.Achiev;
 import com.kalanco.dictator.models.Event;
 import com.kalanco.dictator.models.GameUser;
 import com.kalanco.dictator.services.LocalDatabaseService;
+import com.kalanco.dictator.services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (user.loyal > 5) {
                                 user.loyal = 5;
+                                UserService.newAchive(new Achiev("Любимец народа", "Получите 5 очков лояльности народа", "0", true));
                             }
                             user.police += currentEvent.police1;
                             if (user.police < 0) {
@@ -161,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart() {
+        if (!mDBHelper.isSoundOn()){
+            super.onStart();
+            return;
+        }
         mSoundPool.load(this, R.raw.background, 1);
         mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -173,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStop() {
         mSoundPool.stop(mStreamId);
-
         super.onStop();
     }
 
@@ -189,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user.best < user.score) {
             user.best = user.score;
+            UserService.setBest(user.score);
         }
         pointAdapter.update(mDBHelper.getLoyal());
         pointAdapter2.update(mDBHelper.getPolice());
@@ -223,19 +230,19 @@ public class MainActivity extends AppCompatActivity {
 
     private Drawable getImage(int a) {
         switch (a) {
-            case 1:
+            case 0:
                 return getDrawable(R.drawable.e1);
-            case 2:
+            case 1:
                 return getDrawable(R.drawable.e2);
-            case 3:
+            case 2:
                 return getDrawable(R.drawable.e3);
-            case 4:
+            case 3:
                 return getDrawable(R.drawable.e4);
-            case 5:
+            case 4:
                 return getDrawable(R.drawable.e5);
-            case 6:
+            case 5:
                 return getDrawable(R.drawable.e6);
-            case 7:
+            case 6:
                 return getDrawable(R.drawable.e7);
 
         }

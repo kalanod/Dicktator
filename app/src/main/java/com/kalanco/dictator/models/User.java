@@ -20,7 +20,7 @@ public class User {
         this.id = id;
         this.email = email;
         best = 0;
-        img = 0;
+        img = 1;
         achivments.add(new Achiev("Новичок", "Открыть игру в 1й раз", "1" , true));
 
     }

@@ -6,6 +6,7 @@
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/drawable/back.xml" value="0.1" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/drawable/home.xml" value="0.1" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/drawable/ic_action_recents.xml" value="0.23" />
+        <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/drawable/ic_outline_home_24.xml" value="0.1" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/achiv_item.xml" value="0.264" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/activity_console.xml" value="0.1799145299145299" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/activity_home.xml" value="0.147008547008547" />
@@ -21,7 +22,7 @@
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/fragment_friend.xml" value="0.1799145299145299" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/fragment_home.xml" value="0.147008547008547" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
-        <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/fragment_settings.xml" value="0.1294871794871795" />
+        <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/friend_item.xml" value="0.1799145299145299" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/item_user.xml" value="0.1799145299145299" />
         <entry key="..\:/Users/yaidf/AndroidStudioProjects/Dictator/app/src/main/res/layout/nastroyka.xml" value="0.6" />

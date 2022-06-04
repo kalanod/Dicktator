@@ -59,7 +59,7 @@ public class FragmentProfile extends Fragment {
         setAva(fragmentHolder.mDBHelper.getImg());
         textName.setText(fragmentHolder.mDBHelper.getName());
 
-        best.setText(String.format(Locale.US, "%d", fragmentHolder.mDBHelper.getBest()));
+        best.setText("Рекод:" + fragmentHolder.mDBHelper.getBest());
 
         friendAdapter = new FriendsAdapter(DatabaseService.getFriendsOptions(UserService.getFUserId()), fragmentHolder);
         LinearLayoutManager friendManager = new LinearLayoutManager(getActivity()) {
