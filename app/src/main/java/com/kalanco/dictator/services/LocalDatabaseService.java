@@ -35,7 +35,9 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
             DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
         this.mContext = context;
 
-        copyDataBase();
+        if (!checkDataBase()) {
+            copyDataBase();
+        }
         mDataBase = getWritableDatabase();
         this.getReadableDatabase();
     }
@@ -46,8 +48,9 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
             if (dbFile.exists())
                 dbFile.delete();
 
-            copyDataBase();
-
+            if (!checkDataBase()) {
+                copyDataBase();
+            }
             mNeedUpdate = false;
         }
     }
@@ -57,8 +60,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
         return dbFile.exists();
     }
 
-    private void copyDataBase() {
-        if (!checkDataBase()) {
+    public void copyDataBase() {
             this.getReadableDatabase();
             this.close();
             try {
@@ -66,7 +68,7 @@ public class LocalDatabaseService extends SQLiteOpenHelper {
             } catch (IOException mIOException) {
                 throw new Error("ErrorCopyingDataBase");
             }
-        }
+
     }
 
     private void copyDBFile() throws IOException {

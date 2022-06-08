@@ -49,8 +49,13 @@ public class ActivityReg extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(ActivityReg.this, "успешная регистрация", Toast.LENGTH_SHORT).show();
+                                LocalDatabaseService mDBHelper = new LocalDatabaseService(ActivityReg.this);
+                                mDBHelper.copyDataBase();
+                                mDBHelper.close();
                                 Intent intent = new Intent(ActivityReg.this, ActivitySplash.class);
                                 startActivity(intent);
+
+
                             }
                         }).addOnCanceledListener(new OnCanceledListener() {
                     @Override
